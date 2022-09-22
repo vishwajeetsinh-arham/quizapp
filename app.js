@@ -26,8 +26,9 @@ db.once('open',()=>{
 app.get('/',(req,res)=>{
     res.render('home')
 })
-app.get('/mcqhome', (req,res) => {
-    res.render('show/mcq', {MCQ})
+app.get('/mcqhome',async (req,res) => {
+    const mcqmo = await mcqmodel.find({})
+    res.render('show/mcq', {mcqmo})
 })
 
 app.post('/check',async(req,res)=>{
