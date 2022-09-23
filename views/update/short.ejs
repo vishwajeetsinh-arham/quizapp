@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Short Edit </title>
+</head>
+<body>
+    <a href="/">Back To home</a>
+    <h1>UPdate Your Short Questino</h1>
+    
+    <form action="/shortupdate/<%=shortupdate._id%>?_method=PUT" method="post">
+        <input type="text" placeholder="Enter Your Question here" name="question" value="<%=shortupdate.question%>">
+        <button>update Question</button>
+    </form>
+    
+</body>
+</html>

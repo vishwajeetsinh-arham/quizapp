@@ -7,9 +7,33 @@
     <title>All MCQs</title>
 </head>
 <body>
+    <a href="/">back to home</a>
     <h1>All the MCQs are here</h1>
-    <% for (let mcq of mcqmo){ %>
-            <h1><%=mcq.question%></h1>
+    <br>
+    <br>
+    <a href="/mcqcreate">Create a new mcq</a>
+
+    
+   
+    <% for (let mcq of mcqdb){ %>
+  
+            <h4>Q.<%=mcq.question%> <a href="/mcqupdate/<%=mcq._id%>/edit">Edit</a> <span>
+                <form action="/mcqdelete/<%=mcq._id%>?_method=DELETE" method="POST">
+                    <button>Delete</button>
+                </form>
+            </span> </h4>
+      <fieldset>
+ 
+            <label for="optoinone" ><%=mcq.optionone%></label>
+            <input type="radio" id="optionone" value="one" name="mcq">
+      
+            <label for="optointwo"><%=mcq.optiontwo%></label>
+            <input type="radio" id="optiontwo" value="two" name="mcq">
+     
+            <label for="optointhree"><%=mcq.optionthree%></label>
+            <input type="radio" id="optionthree" value="three" name="mcq">
+  
+      </fieldset>
     <%}%>
     
 </body>

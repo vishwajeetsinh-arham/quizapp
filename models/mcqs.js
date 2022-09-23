@@ -1,11 +1,13 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+ObjectId = Schema.ObjectId
 
 const MCQ = new Schema({
+    Id: ObjectId,
     question: String,
     optionone: String,
     optiontwo: String,
     optionthree: String
 })
 
-module.exports = mongoose.model('mcqmodels', MCQ)
+module.exports = mongoose.model('mcqs', MCQ)

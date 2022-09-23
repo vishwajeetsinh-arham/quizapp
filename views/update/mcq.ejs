@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Your MCQ!</title>
+</head>
+<body>
+    <a href="/mcqhome">Back to ALL Mcqs</a>
+   
+    <h1>Update MCQ</h1>
+    <div>
+        <form action="/mcqupdate/<%=mcqupdate._id%>?_method=PUT" method="post">
+            <label for="q">Enter Your Quesion</label>
+            <input id="q" type="text" name="question" width="100px" value="<%=mcqupdate.question%>">
+            <br>
+            <br>
+            <label for="o1">Create option one</label>
+            <input id="o1" type="text" name="optionone" width="40px" value="<%=mcqupdate.optionone%>">
+
+            <label for="o2">Create option two</label>
+            <input id="o2" type="text" name="optiontwo" width="40px" value="<%=mcqupdate.optiontwo%>">
+
+            <label for="o3">Create Option three</label>
+            <input id="o3" type="text" name="optionthree" width="40px" value="<%=mcqupdate.optionthree%>">
+
+            
+            <button>Update</button>
+
+        </form>
+    </div>
+    
+</body>
+</html>
