@@ -4,6 +4,17 @@ const methodOverride = require('method-override')
 const app = express()
 const path = require('path')
 
+const uri = "mongodb+srv://vishwajeet:vishwajeet@quizzapp.8cryywh.mongodb.net/?retryWrites=true&w=majority"
+async function connect(){
+    try{
+        await mongoose.connect(uri)
+        console.log('connected to online MDB')
+    }catch(error){
+        console.log(error)
+    }
+}
+connect()
+
 // import models
 const mcqs = require('./models/mcqs')
 const short = require('./models/short')
@@ -16,14 +27,14 @@ app.use(methodOverride('_method'))
 
 
 
-const port = 3000 || process.env.PORT
+const port = process.env.PORT || 3000 
 
 // mongoose settings
 
-mongoose.connect('mongodb://localhost:27017/quizapp',{
-    useNewUrlParser: true, 
-    useUnifiedTopology: true
-})
+// mongoose.connect('mongodb://localhost:27017/quizapp',{
+//     useNewUrlParser: true, 
+//     useUnifiedTopology: true
+// })
 const db = mongoose.connection
 db.on('error',console.error.bind(console, 'connection error::'))
 db.once('open',()=>{
