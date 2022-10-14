@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const methodOverride = require('method-override')
 const app = express()
 const path = require('path')
+const AppError = require('./AppError')
 
 const uri = "mongodb+srv://vishwajeet:vishwajeet@quizzapp.8cryywh.mongodb.net/?retryWrites=true&w=majority"
 async function connect(){
@@ -58,6 +59,7 @@ app.get('/shorthome', async(req,res)=>{
 // create page
 
 app.get('/mcqcreate', (req,res) =>{
+    // throw new AppError("Not Allowed By Vis", 401)
     res.render('create/mcq')
 })
 app.get('/shortcreate', (req,res)=>{
@@ -66,8 +68,13 @@ app.get('/shortcreate', (req,res)=>{
 
 //get request update the questions
 
-app.get('/mcqupdate/:id/edit', async(req,res)=>{
+// dont' forget to use next for async error handling  and returning error. 
+// also don't forget to use new
+app.get('/mcqupdate/:id/edit', async(req,res, next)=>{
     const mcqupdate = await mcqs.findById(req.params.id)
+    if (!mcqupdate){
+        return  next( new AppError('mcq note found'))
+    }
     res.render('update/mcq', {mcqupdate})
 })
 app.get('/shortupdate/:id/edit', async(req,res) =>{
@@ -77,10 +84,15 @@ app.get('/shortupdate/:id/edit', async(req,res) =>{
 
 // put request update the questions
 
-app.put('/mcqupdate/:id', async(req,res) =>{
-    const {id} = req.params
-    const mcqudpate = await mcqs.findByIdAndUpdate(id,{...req.body})
-    res.redirect('/mcqhome')
+app.put('/mcqupdate/:id', async(req,res,next) =>{
+    try{
+        const {id} = req.params
+        const mcqudpate = await mcqs.findByIdAndUpdate(id,{...req.body})
+        res.redirect('/mcqhome')
+    }
+    catch(e){
+        next(e)
+    }
 })
 
 app.put('/shortupdate/:id', async(req,res)=> {
@@ -117,17 +129,28 @@ app.post('/check',async(req,res)=>{
 })
 
 // mcq value
-app.post('/mcqcreate', async (req,res) =>{
+app.post('/mcqcreate', async (req,res,next) =>{
+    try{
+            const mcqmodel = new mcqs(req.body)
+            await mcqmodel.save()
+            res.redirect('/mcqhome')
+       } catch(e){
+         next(e)
+       }
 
-    const mcqmodel = new mcqs(req.body)
-    await mcqmodel.save()
-    res.redirect('/mcqhome')
+
 })
 
 app.post('/shortcreate', async(req,res)=>{
     const shortmodel = new short(req.body)
     await shortmodel.save()
     res.redirect('/shorthome')
+})
+
+app.use((err,req,res,next) =>{
+    const {status = 500, message = 'something went wrong'} = err
+    res.status(status).send(message)
+
 })
 
 app.listen(port, ()=>{

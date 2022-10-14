@@ -4,7 +4,10 @@ ObjectId = Schema.ObjectId
 
 const MCQ = new Schema({
     Id: ObjectId,
-    question: String,
+    question: {
+        type: String,
+        required: true,
+    },
     optionone: String,
     optiontwo: String,
     optionthree: String
